@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>呪われし孤島、黄泉ヶ島（よみがじま）</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        h2 {
+            color: #34495e;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+            margin-top: 30px;
+        }
+        h3 {
+            color: #2980b9;
+            margin-top: 20px;
+        }
+        ul {
+            list-style-type: disc;
+            margin-left: 20px;
+            padding-left: 0;
+        }
+        ul.no-bullets {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        p {
+            margin-bottom: 10px;
+        }
+        strong {
+            color: #c0392b; /* 赤っぽい色で強調 */
+        }
+        pre {
+            background-color: #ecf0f1;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: 'Courier New', Courier, monospace;
+            white-space: pre-wrap; /* 自動改行 */
+            word-wrap: break-word; /* 長い単語も改行 */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>yomigashima.github.io</h1>
+
+        <h2>ゲームタイトル</h2>
+        <p>呪われし孤島、黄泉ヶ島（よみがじま）</p>
+
+        <h2>コンセプト</h2>
+        <ul>
+            <li>プレイヤーは、古くから神隠しや怪奇現象の噂が絶えない絶海の孤島「黄泉ヶ島」を探索する。</li>
+            <li>行方不明になった友人の捜索、あるいは禁断の秘宝探しなど、様々な理由で足を踏み入れる。</li>
+            <li>島そのものが生きているかのようにプレイヤーの行動に反応し、絶望的な状況へと追い込んでいく。</li>
+        </ul>
+
+        <h2>使用するゲーム開発エンジン</h2>
+        <p>Unity</p>
+
+        <h2>特徴</h2>
+        <ul>
+            <li><strong>動的なシナリオ生成</strong>: プレイヤーの行動、発言、現在の環境に応じて、AIがその場で状況描写やイベントなどを生成</li>
+            <li><strong>恐怖演出</strong>: 時間帯、天候、プレイヤーのSAN値に応じて、AIが島の風景や音響、発生する怪奇現象を生成・変化させる。</li>
+            <li><strong>謎解き要素</strong>: 島の各所に散りばめられた謎や呪いを解くための手がかりを、AIがプレイヤーの探索状況に応じて提示したり、あるいは新たな謎を生成したりする。プレイヤーの思考を読み取り、適切な難易度でヒントを提供する。</li>
+        </ul>
+
+        <h2>プレイヤーの情報</h2>
+        <ul>
+            <li><code>SAN_Value</code>: プレイヤーの精神状態。GUIのスライダーなどで視覚的に表現。AIに渡す際には数値として渡す。</li>
+            <li><code>Inventory</code>: 所持アイテムのリスト。AIに渡す際にはアイテム名をリストとして渡す。</li>
+            <li><code>Current_Location</code>: 現在の場所。AIに渡す。</li>
+            <li><code>Flags</code>: ゲームの進行状況を示すブーリアン（真偽値）や文字列のフラグ。例: <code>日記A_読了 = true</code>, <code>発電機_修理済み = true</code>。AIに渡すことで、過去の出来事を考慮した生成を促す。</li>
+        </ul>
+
+        <h2>AIとゲームロジックの連携</h2>
+        <ul class="no-bullets">
+            <li>クラウドベースのGoogle Gemini APIを、AIとしてAPI利用</li>
+            <li>行動判定にはダイス(乱数)を用いる</li>
+            <li>AIからの応答は、パース処理によって、プレイヤーへ表示する文章と、関数呼び出し(または表示画像など)を分離</li>
+        </ul>
+
+        <h3>AIへのプロンプト</h3>
+        <ul class="no-bullets">
+            <li>役割の定義</li>
+            <li>応答形式の定義</li>
+            <li>ゲームルール</li>
+            <li>シナリオ</li>
+            <li>マップ</li>
+            <li>これまでの行動履歴の要約(AIからの応答で受け取ったもの)</li>
+            <li>現在のプレイヤーの状態</li>
+            <li>プレイヤーの入力</li>
+        </ul>
+
+        <h3>AIからの応答</h3>
+        <ul class="no-bullets">
+            <li>プレイヤーに表示する文章(情景描写やNPCの発言など)</li>
+            <li>関数・アセットの呼び出し</li>
+            <li>これまでの行動履歴の要約</li>
+        </ul>
+
+        <h2>ゲームの流れの一例</h2>
+        <ol>
+            <li><strong>プレイヤーの行動宣言</strong>: プレイヤーが自由入力で「廃れた小屋の中を詳しく調べる」と入力。</li>
+            <li><strong>AIの応答（サイコロ要求）</strong>:
+                <pre>AI: 「小屋の中は暗く、ガラクタが散乱している。何か見つけ出すには、注意深く探索する必要があるだろう。<strong>サイコロ要求: 知覚判定</strong>のために1d6を振ってください。」
+Unityアプリ側：サイコロを振るボタンが表示される。プレイヤー入力は無効化。</pre>
+            </li>
+            <li><strong>プレイヤーのサイコロロール</strong>: プレイヤーがボタンをタップし、サイコロが振られる（例：出目「4」）。</li>
+            <li><strong>結果のAIへの送信</strong>: Unityが「知覚判定のためのサイコロで4が出た」という情報を付加してAIにプロンプトを送信。</li>
+            <li><strong>AIの応答（結果の描写）</strong>:
+                <pre>AI: 「サイコロの出目4は、あなたの知覚力を考慮すると十分な結果だ。あなたは埃まみれの棚の奥に、古びた日記帳が隠されているのを見つけた。しかし、日記の裏には不気味な血痕がついており、あなたの<strong>SAN値が-3減少</strong>した。」
+Unityアプリ側：日記の画像を表示、SAN値を3減少させる、プレイヤー入力が再有効化される。</pre>
+            </li>
+        </ol>
+
+        <h2>アセット</h2>
+        <ul>
+            <li>大量の画像素材を用意しておき、AIが適切な画像を選び、表示させる</li>
+            <li><strong>背景画像:</strong> 島の様々な場所（桟橋、廃村、森、洞窟、神社、海岸、灯台など）の不気味な雰囲気の画像。</li>
+            <li><strong>効果音:</strong> 足音、風の音、波の音、不気味な物音、囁き声、悲鳴、心臓の鼓動など。AIが描写した内容に合わせて自動再生する仕組みを検討。</li>
+            <li><strong>BGM:</strong> 環境音のような静かで不穏なBGM。SAN値の変動に合わせて曲調を変えることも可能。</li>
+        </ul>
+
+        <h2>マップ</h2>
+        <p>マップは事前に決定しておき、プロンプトとしてAIに渡す</p>
+    </div>
+</body>
+</html>
